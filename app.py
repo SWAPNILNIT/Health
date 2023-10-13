@@ -1,5 +1,5 @@
 # Import the Flask module and other necessary libraries
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from transformers import AutoTokenizer,GenerationConfig, AutoModelForSeq2SeqLM,Seq2SeqTrainer, Seq2SeqTrainingArguments,DataCollatorForSeq2Seq
 from huggingface_hub import login
 import re
@@ -26,7 +26,10 @@ model = PeftModel.from_pretrained(model, peft_model_id)
 model.eval()
 
 print("Peft model loaded")
-
+@app.route("/")
+def index():
+    return render_template("index.html")
+  
 # Define the health endpoint
 @app.route('/health', methods=['POST'])
 def health_endpoint():
