@@ -111,11 +111,11 @@ def health_endpoint():
         result = health(input_text)
 
         # Return the result as JSON
-        return jsonify({'result': result})
+        return render_template('healthcare_answer.html', result=result)
     except Exception as e:
         return jsonify({'error': str(e)})
 
 
-# Run the Flask app
-if __name__ == '__main__':
-    app.run(debug=True)
+# # Run the Flask app
+# if __name__ == '__main__':
+#     app.run(debug=True)
