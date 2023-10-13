@@ -1,1 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Healthcare Q&A</title>
+</head>
+<body>
+    <h1>Healthcare Question & Answer</h1>
+    <p>Ask a question related to healthcare:</p>
+
+    <form method="POST" action="/health">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="text" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result">
+        {% if result %}
+            <h2>Answer:</h2>
+            <p>{{ result }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
 
