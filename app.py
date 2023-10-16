@@ -28,7 +28,7 @@ model.eval()
 print("Peft model loaded")
 @app.route("/")
 def index():
-    return render_template("indexx.html")
+    return render_template("index.html")
   
 # Define the health endpoint
 @app.route('/health', methods=['POST'])
