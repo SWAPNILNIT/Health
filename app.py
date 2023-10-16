@@ -36,7 +36,7 @@ def health_endpoint():
     try:
         # Get the input text from the request JSON
         # input_text = request.json['text']
-        iinput_text= str(request.form["text"])
+        input_text= str(request.form["text"])
 
         # Define the health function
         def remove_repeated_phrases_and_sentences(text):
