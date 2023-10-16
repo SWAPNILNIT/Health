@@ -1,5 +1,5 @@
 # Import the Flask module and other necessary libraries
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from transformers import AutoTokenizer,GenerationConfig, AutoModelForSeq2SeqLM,Seq2SeqTrainer, Seq2SeqTrainingArguments,DataCollatorForSeq2Seq
 from huggingface_hub import login
 import re
@@ -12,6 +12,7 @@ app = Flask(__name__)
 # Perform Hugging Face Hub login
 with open ('huggingface.txt','r') as file:
   huggingface_token=file.read().strip()
+
 login(token=huggingface_token)
 
 # Load peft config for pre-trained checkpoint etc.
@@ -26,17 +27,13 @@ model = PeftModel.from_pretrained(model, peft_model_id)
 model.eval()
 
 print("Peft model loaded")
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
-  
+
 # Define the health endpoint
 @app.route('/health', methods=['POST'])
 def health_endpoint():
     try:
         # Get the input text from the request JSON
         input_text = request.json['text']
-        # input_text= str(request.form["text"])
 
         # Define the health function
         def remove_repeated_phrases_and_sentences(text):
@@ -112,12 +109,9 @@ def health_endpoint():
         result = health(input_text)
 
         # Return the result as JSON
-        # return render_template('index.html', result=result)
         return jsonify({'result': result})
-        # return jsonify({'message': "Hello World!!"})
     except Exception as e:
         return jsonify({'error': str(e)})
-
 
 # Run the Flask app
 if __name__ == "__main__":
