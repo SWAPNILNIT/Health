@@ -35,7 +35,8 @@ def index():
 def health_endpoint():
     try:
         # Get the input text from the request JSON
-        input_text = request.json['text']
+        # input_text = request.json['text']
+        iinput_text= str(request.form["text"])
 
         # Define the health function
         def remove_repeated_phrases_and_sentences(text):
@@ -111,7 +112,7 @@ def health_endpoint():
         result = health(input_text)
 
         # Return the result as JSON
-        return render_template('healthcare_answer.html', result=result)
+        return render_template('index.html', result=result)
     except Exception as e:
         return jsonify({'error': str(e)})
 
