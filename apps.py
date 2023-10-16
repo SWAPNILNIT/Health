@@ -26,9 +26,9 @@ model = PeftModel.from_pretrained(model, peft_model_id)
 model.eval()
 
 print("Peft model loaded")
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
+@app.route("/")
+def index():
+    return render_template("index.html")
   
 # Define the health endpoint
 @app.route('/health', methods=['POST'])
@@ -112,8 +112,8 @@ def health_endpoint():
         result = health(input_text)
 
         # Return the result as JSON
-        # return render_template('index.html', result=result)
-        return jsonify({'result': result})
+        return render_template('index.html', result=result)
+        # return jsonify({'result': result})
         # return jsonify({'message': "Hello World!!"})
     except Exception as e:
         return jsonify({'error': str(e)})
