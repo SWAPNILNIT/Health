@@ -26,17 +26,17 @@ model = PeftModel.from_pretrained(model, peft_model_id)
 model.eval()
 
 print("Peft model loaded")
-@app.route("/")
-def index():
-    return render_template("index.html")
+# @app.route("/")
+# def index():
+#     return render_template("index.html")
   
 # Define the health endpoint
 @app.route('/health', methods=['POST'])
 def health_endpoint():
     try:
         # Get the input text from the request JSON
-        # input_text = request.json['text']
-        input_text= str(request.form["text"])
+        input_text = request.json['text']
+        # input_text= str(request.form["text"])
 
         # Define the health function
         def remove_repeated_phrases_and_sentences(text):
@@ -112,7 +112,8 @@ def health_endpoint():
         result = health(input_text)
 
         # Return the result as JSON
-        return render_template('index.html', result=result)
+        # return render_template('index.html', result=result)
+        return jsonify({'result': result})
         # return jsonify({'message': "Hello World!!"})
     except Exception as e:
         return jsonify({'error': str(e)})
