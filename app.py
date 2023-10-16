@@ -112,7 +112,8 @@ def health_endpoint():
         result = health(input_text)
 
         # Return the result as JSON
-        return render_template('index.html', result=result)
+        # return render_template('index.html', result=result)
+        return jsonify({'message': "Hello World!!"})
     except Exception as e:
         return jsonify({'error': str(e)})
 
