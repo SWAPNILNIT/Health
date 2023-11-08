@@ -114,6 +114,7 @@ def health_endpoint():
               result="The question is not related to healthcare."
               result_ids = tokenizer(result, return_tensors="pt",truncation=True).input_ids
               total_token=len(result_ids[0])
+              end=time.time()
               execution_time=end-start
               return result,execution_time,total_token
 
