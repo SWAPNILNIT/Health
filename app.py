@@ -5,6 +5,7 @@ from huggingface_hub import login
 import re
 import torch
 from peft import PeftModel, PeftConfig
+import time
 from flask_cors import CORS,cross_origin
 
 # Initialize Flask app
@@ -92,6 +93,7 @@ def health_endpoint():
             print("-"*25)
             print(question)
 
+          start=time.time()
             if domain.lower() == "yes":
               input_ids = tokenizer(question, return_tensors="pt",truncation=True).input_ids
               # health_model_outputs = model_health.generate(input_ids=input_ids, generation_config=GenerationConfig(min_new_tokens=100,max_new_tokens=500, num_beams=1))
@@ -99,21 +101,28 @@ def health_endpoint():
               # print(answer)
               instruct_model_outputs = model.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
               Predicted_Answer = tokenizer.decode(instruct_model_outputs[0], skip_special_tokens=True)
+              end=time.time()
               result = remove_repeated_phrases_and_sentences(Predicted_Answer)
+              result_ids = tokenizer(result, return_tensors="pt",truncation=True).input_ids
+              total_token=len(result_ids[0])
+              execution_time=end-start
             #   result= textwrap.fill(result, width=100)
-              return result
+              return result,execution_time,total_token
               # # print(f"Predicted Answer:{tokenizer.batch_decode(outputs.detach().cpu().numpy(), skip_special_tokens=True)[0]}")
 
             else:
               result="The question is not related to healthcare."
-              return result
+              result_ids = tokenizer(result, return_tensors="pt",truncation=True).input_ids
+              total_token=len(result_ids[0])
+              execution_time=end-start
+              return result,execution_time,total_token
 
 
         # Call the health function with the input text
         result = health(input_text)
 
         # Return the result as JSON
-        return jsonify({'result': result})
+        return jsonify({'result': result[0],'execution time':result[1],'token used':result[2]}))
     except Exception as e:
         return jsonify({'error': str(e)})
 
