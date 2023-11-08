@@ -93,7 +93,7 @@ def health_endpoint():
             print("-"*25)
             print(question)
 
-          start=time.time()
+            start=time.time()
             if domain.lower() == "yes":
               input_ids = tokenizer(question, return_tensors="pt",truncation=True).input_ids
               # health_model_outputs = model_health.generate(input_ids=input_ids, generation_config=GenerationConfig(min_new_tokens=100,max_new_tokens=500, num_beams=1))
